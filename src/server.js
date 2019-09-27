@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
+require('./db/mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
@@ -10,12 +10,8 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const db = require('./config/keys').mongoURI;
 
-mongoose.connect(db)
-        .then(() => console.log('Mongo connected!'))
-        .catch(err => console.log(err));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(passport.initialize());
@@ -34,4 +30,6 @@ app.use('/api/posts', postsRoute);
 
 const port = process.env.PORT || 4000;
 
-app.listen(port, () => console.log(`Server is running on port http://localhost:${port} ...`));
+app.listen(port, () =>
+	console.log(`Server is running on port http://localhost:${port} ...`)
+);
