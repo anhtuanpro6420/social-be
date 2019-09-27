@@ -3,6 +3,7 @@ require('./db/mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
+const authRoute = require('./routes/api/auth');
 const usersRoute = require('./routes/api/users');
 const profileRoute = require('./routes/api/profile');
 const postsRoute = require('./routes/api/posts');
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(passport.initialize());
 require('./config/passport')(passport);
+app.use('/api/auth', authRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/profile', profileRoute);
 app.use('/api/posts', postsRoute);
