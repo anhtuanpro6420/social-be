@@ -1,13 +1,9 @@
-const gravatar = require('gravatar');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const keys = require('../config/keys');
 const User = require('../models/User');
 const validateRegister = require('../validation/register');
 const validateLogin = require('../validation/login');
-
-module.exports.test = (req, res) => res.json({ msg: 'User works' });
 
 module.exports.register = (req, res) => {
 	const { errors, isValid } = validateRegister(req.body);
@@ -77,12 +73,5 @@ module.exports.login = (req, res) => {
 				return res.status(400).json(errors);
 			}
 		});
-	});
-};
-
-module.exports.getMyInfo = (req, res) => {
-	res.json({
-		id: req.user.id,
-		email: req.user.email
 	});
 };
