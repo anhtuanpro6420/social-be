@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 const db = require('../config/keys').mongoURI;
 mongoose
-	.connect(db, {
-		useCreateIndex: true,
-		useNewUrlParser: true
-	})
+	.connect(
+		process.env.MONGODB_URI ||
+			'mongodb://localhost:27017/social-videos-dev',
+		{
+			useCreateIndex: true,
+			useNewUrlParser: true
+		}
+	)
 	.then(() => console.log('Mongo connected!'))
 	.catch(err => console.log(err));
