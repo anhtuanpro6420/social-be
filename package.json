@@ -5,8 +5,7 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node src/server.js",
-		"dev": "nodemon src/server.js",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix fe && npm run build --prefix fe"
+		"dev": "nodemon src/server.js"
 	},
 	"author": "Si",
 	"license": "ISC",
