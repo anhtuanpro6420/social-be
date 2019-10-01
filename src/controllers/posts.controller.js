@@ -1,7 +1,7 @@
 const Post = require('../models/Post');
 const validatePostInput = require('../validation/post');
 
-module.exports.create = (req, res) => {
+module.exports.create = async (req, res) => {
 	const { errors, isValid } = validatePostInput(req.body);
 
 	if (!isValid) {
@@ -14,23 +14,17 @@ module.exports.create = (req, res) => {
 		user: req.user.id
 	});
 
-	newPost.save().then(post => res.json(post));
+	const post = await newPost.save();
+	return res.status(201).json(post);
 };
 
 module.exports.getAll = async (req, res) => {
-	const posts = await Post.find().sort({ date: -1 });
-	const data = await Promise.all(
-		posts.map(async item => {
-			const userInfo = await User.findById(item.user);
-			const publicInfo = await userInfo.getPublicProfile();
-			return {
-				_id: item._id,
-				url: item.url,
-				title: item.title,
-				description: item.description,
-				user: publicInfo
-			};
-		})
-	);
-	return res.json(data);
+	try {
+		const posts = await Post.find().populate('user', ['email']);
+		return res.json(posts);
+	} catch {
+		return res
+			.status(404)
+			.json({ profile: 'There is no profile for this user' });
+	}
 };

@@ -5,34 +5,33 @@ const User = require('../models/User');
 const validateRegister = require('../validation/register');
 const validateLogin = require('../validation/login');
 
-module.exports.register = (req, res) => {
+module.exports.register = async (req, res) => {
 	const { errors, isValid } = validateRegister(req.body);
 
 	if (!isValid) {
 		return res.status(400).json(errors);
 	}
-	User.findOne({ email: req.body.email }).then(user => {
-		if (user) {
-			errors.message = 'Email has already exist!';
-			return res.status(400).send(errors);
-		} else {
-			const newUser = new User({
-				email: req.body.email,
-				password: req.body.password
-			});
+	const user = await User.findOne({ email: req.body.email });
+	if (user) {
+		errors.message = 'Email has already exist!';
+		return res.status(400).send(errors);
+	} else {
+		const newUser = new User({
+			email: req.body.email,
+			password: req.body.password
+		});
 
-			bcrypt.genSalt(10, (err, salt) => {
-				bcrypt.hash(newUser.password, salt, (err, hash) => {
-					if (err) throw err;
-					newUser.password = hash;
-					newUser
-						.save()
-						.then(user => res.status(201).json(user))
-						.catch(err => res.send(err));
-				});
+		bcrypt.genSalt(10, (err, salt) => {
+			bcrypt.hash(newUser.password, salt, (err, hash) => {
+				if (err) throw err;
+				newUser.password = hash;
+				newUser
+					.save()
+					.then(user => res.status(201).json(user))
+					.catch(err => res.send(err));
 			});
-		}
-	});
+		});
+	}
 };
 
 module.exports.login = (req, res) => {
