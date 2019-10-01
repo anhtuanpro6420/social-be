@@ -5,7 +5,8 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "node src/server.js",
-		"dev": "nodemon src/server.js"
+		"dev": "nodemon src/server.js",
+		"test": "jest --watch"
 	},
 	"author": "Si",
 	"license": "ISC",
@@ -25,6 +26,8 @@
 		"validator": "^11.0.0"
 	},
 	"devDependencies": {
-		"nodemon": "^1.19.1"
+		"jest": "^24.9.0",
+		"nodemon": "^1.19.1",
+		"supertest": "^4.0.2"
 	}
 }
