@@ -1,26 +1,19 @@
 const request = require('supertest');
-const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const app = require('../app');
 const User = require('../models/User');
-const keys = require('../config/keys');
 
-const userOneId = new mongoose.Types.ObjectId();
 const userOne = {
 	email: 'admin@gmail.com',
 	password: '123123'
 };
 
 bcrypt.genSalt(10, (err, salt) => {
-	console.log(salt);
 	bcrypt.hash(userOne.password, salt, (err, hash) => {
 		if (err) throw err;
 		userOne.password = hash;
-		console.log(userOne.password);
 	});
 });
-// const token = jwt.sign(payload, keys.secretOrKey, { expiresIn: 3600 });
 
 beforeEach(async () => {
 	await User.deleteMany();
