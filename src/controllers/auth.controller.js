@@ -74,3 +74,10 @@ module.exports.login = (req, res) => {
 		});
 	});
 };
+
+module.exports.getMyInfo = (req, res) => {
+	return res.json({
+		_id: req.user._id,
+		email: req.user.email
+	});
+};
