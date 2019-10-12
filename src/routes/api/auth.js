@@ -13,13 +13,4 @@ router.post('/login', controller.login);
 // @access  Public
 router.post('/register', controller.register);
 
-// @route   POST /api/auth/me
-// @desc    Get my info
-// @access  Private
-router.get(
-	'/me',
-	passport.authenticate('jwt', { session: false }),
-	controller.getMyInfo
-);
-
 module.exports = router;

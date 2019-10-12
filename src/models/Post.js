@@ -16,13 +16,7 @@ const PostSchema = new Schema({
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: 'users'
-	},
-	favorites: [
-		{
-			type: Schema.Types.ObjectId,
-			ref: 'users'
-		}
-	]
+	}
 });
 
 module.exports = Post = mongoose.model('post', PostSchema);
